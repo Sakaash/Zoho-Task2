@@ -2,32 +2,57 @@ import java.util.Scanner;
 
 public class Prob19 {
     public static void main(String[] args) {
-        int[][] md = {{1,2,3},{4,5,6},{7,8,9}};
-        
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the number of times to be rotated : ");
-        int rotate = scanner.nextInt()%md[0].length;
-        scanner.close();
-        // Left shift every row
-        for (int i = 0; i < md.length; i++) {
-            int[] r = new int[rotate];
-            int len = md[i].length;
-            for (int j = 0; j < r.length; j++) {
-                r[j]=md[i][j];
-            }
-            int temp = rotate;
-            while (temp<len) {
-                md[i][temp-rotate]= md[i][temp++];
-            }
-            for (int j = 0; j < r.length; j++) {
-                md[i][len-rotate+j] = r[j];
+        System.out.println("Enter no of rows : ");
+        int rows = scanner.nextInt();
+        System.out.println("Enter no of cols : ");
+        int columns = scanner.nextInt();
+        System.out.println("Enter the matrix : ");
+        int[][] matrix = new int[rows][columns];
+        for (int i = 0; i < matrix.length; i++) {
+            for(int j = 0; j<matrix[i].length; j++){
+                matrix[i][j] = scanner.nextInt();
             }
         }
-        // Print the elements
-        for (int i = 0; i < md.length; i++) {
+        System.out.println("Enter the number of times to be rotated : ");
+        
+        scanner.close();
+        // Left shift every row
+        
+        int temp;
+        for(int i = 0; i<matrix.length-1; i++)
+        {
+            for(int j = i+1; j<matrix[i].length; j++)
+            {
+                temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
+            }
+        }
+        // Right rotate logic  
+        // for(int i = 0; i<matrix.length; i++){
+        //     for(int j = 0; (matrix[i].length%2==0?
+        //                 j<matrix[i].length/2:
+        //                 j<=matrix[i].length/2); j++)
+        //     {
+        //         temp = matrix[i][j];
+        //         matrix[i][j] = matrix[i][matrix[i].length-1-j];
+        //         matrix[i][matrix[i].length-1-j] = temp;
+        //     }
+        // }
+
+        // Left rotate logic
+        for (int i = 0; i < matrix.length/2; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                temp = matrix[i][j];
+                matrix[i][j] = matrix[matrix[i].length-1-i][j];
+                matrix[matrix[i].length-1-i][j] = temp;
+            }
+        }
+        for (int i = 0; i < matrix.length; i++) {
             System.out.println();
-            for (int j = 0; j < md[i].length; j++) {
-                System.out.print(md[i][j]+" ");
+            for (int j = 0; j < matrix[i].length; j++) {
+                System.out.print(matrix[i][j]+" ");
             }
         }
     }
